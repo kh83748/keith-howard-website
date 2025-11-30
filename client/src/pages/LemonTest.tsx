@@ -2,16 +2,18 @@ import * as React from "react";
 import { Link } from "wouter";
 
 export default function LemonTest() {
-  // We remove the standard navigation and footer for a clean squeeze page experience.
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <div className="grid gap-12 lg:grid-cols-2 items-stretch">
+      <div className="container mx-auto px-6 py-12 sm:py-24 flex-1">
         
-        {/* The 2-Column Grid: Stacks on mobile, splits on large screens */}
+        {/* GRID FIX: 
+            - lg:grid-cols-2 -> Creates 2 columns on large screens
+            - items-start -> Aligns both columns to the TOP (fixes height mismatch) 
+        */}
         <div className="grid gap-12 lg:grid-cols-2 items-start">
             
             {/* Left Column: Text Content */}
-            <div className="text-left space-y-6 lg:max-w-md lg:py-16">
+            <div className="text-left space-y-6 lg:max-w-md lg:py-4">
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
                     The MarTech Lemon Test
                 </h1>
@@ -27,10 +29,11 @@ export default function LemonTest() {
                 </div>
             </div>
 
-            {/* Right Column: Quiz Embed (The Squeeze Element) */}
+            {/* Right Column: Quiz Embed */}
             <div className="w-full bg-card text-card-foreground rounded-xl border shadow-lg p-6 sm:p-8">
                 <h3 className="text-xl font-bold mb-4">Start the Diagnostic:</h3>
-                {/* RightMessage Embed Code (from your prompt) */}
+                
+                {/* RightMessage Embed Code */}
                 <div className="rm-area-embedded-martech-lemon-test-embed-11-24-25-flow"></div>
             </div>
 
