@@ -8,7 +8,7 @@ export default function LemonTest() {
       <div className="container mx-auto px-6 py-12 sm:py-24 flex-1">
         
         {/* The 2-Column Grid: Stacks on mobile, splits on large screens */}
-        <div className="grid gap-12 lg:grid-cols-2 items-start justify-center">
+        <div className="grid gap-12 lg:grid-cols-2 items-start">
             
             {/* Left Column: Text Content */}
             <div className="text-left space-y-6 lg:max-w-md lg:py-16">
