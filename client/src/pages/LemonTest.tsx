@@ -2,14 +2,31 @@ import * as React from "react";
 import { Link } from "wouter";
 
 export default function LemonTest() {
+  
+  // 1. This effect runs ONCE when the page loads
+  React.useEffect(() => {
+    const scriptId = "rm-script-loader";
+    
+    // Check if script is already there to avoid duplicates
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.type = "text/javascript";
+      script.async = true;
+      // Directly load your specific RightMessage account script
+      script.src = "https://t.rightmessage.com/240997845.js"; 
+      document.body.appendChild(script);
+    } else {
+      // If script already exists (user navigated away and back), force a re-check
+      // @ts-ignore
+      if (window.RM && window.RM.check) window.RM.check();
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <div className="container mx-auto px-6 py-12 sm:py-24 flex-1">
         
-        {/* GRID FIX: 
-            - lg:grid-cols-2 -> Creates 2 columns on large screens
-            - items-start -> Aligns both columns to the TOP (fixes height mismatch) 
-        */}
         <div className="grid gap-12 lg:grid-cols-2 items-start">
             
             {/* Left Column: Text Content */}
@@ -30,18 +47,16 @@ export default function LemonTest() {
             </div>
 
             {/* Right Column: Quiz Embed */}
-            <div className="w-full bg-card text-card-foreground rounded-xl border shadow-lg p-6 sm:p-8">
+            <div className="w-full bg-card text-card-foreground rounded-xl border shadow-lg p-6 sm:p-8 min-h-[400px]">
                 <h3 className="text-xl font-bold mb-4">Start the Diagnostic:</h3>
                 
-                {/* RightMessage Embed Code */}
+                {/* The Embed Container */}
                 <div className="rm-area-embedded-martech-lemon-test-embed-11-24-25-flow"></div>
             </div>
 
         </div>
-
       </div>
 
-      {/* Minimal Footer */}
       <footer className="border-t border-border py-4 px-4">
         <div className="container flex justify-center text-sm text-foreground/60">
           © 2025 Keith Howard. All rights reserved.
