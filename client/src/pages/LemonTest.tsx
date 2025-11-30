@@ -48,7 +48,7 @@ export default function LemonTest() {
 
             {/* Right Column: Quiz Embed */}
             <div className="w-full bg-card text-card-foreground rounded-xl border shadow-lg p-6 sm:p-8 min-h-[400px]">
-                <h3 className="text-xl font-bold mb-4">Start the Diagnostic:</h3>
+                <h3 className="text-xl font-bold mb-4"></h3>
                 
                 {/* The Embed Container */}
                 <div className="rm-area-embedded-martech-lemon-test-embed-11-24-25-flow"></div>
