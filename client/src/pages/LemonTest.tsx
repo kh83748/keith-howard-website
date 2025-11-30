@@ -5,7 +5,7 @@ export default function LemonTest() {
   // We remove the standard navigation and footer for a clean squeeze page experience.
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <div className="container mx-auto px-6 py-12 sm:py-24 flex-1">
+      <div className="grid gap-12 lg:grid-cols-2 items-stretch">
         
         {/* The 2-Column Grid: Stacks on mobile, splits on large screens */}
         <div className="grid gap-12 lg:grid-cols-2 items-start">
