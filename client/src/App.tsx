@@ -9,7 +9,8 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
-import LemonTest from "./pages/LemonTest"; // <-- New page import
+import LemonTest from "./pages/LemonTest";
+import LemonTestResults from "./pages/LemonTestResults"; // <-- Import new page
 
 function Router() {
   return (
@@ -19,7 +20,8 @@ function Router() {
       <Route path={"/services"} component={Services} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
-      <Route path={"/martech-lemon-test"} component={LemonTest} /> {/* <-- New quiz route */}
+      <Route path={"/martech-lemon-test"} component={LemonTest} />
+      <Route path={"/martech-lemon-test/results"} component={LemonTestResults} /> {/* <-- Add new route */}
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
