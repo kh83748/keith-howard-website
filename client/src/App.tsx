@@ -10,7 +10,7 @@ import Services from "./pages/Services";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import LemonTest from "./pages/LemonTest";
-import LemonTestResults from "./pages/LemonTestResults"; // <-- Import new page
+import LemonTestResults from "./pages/LemonTestResults";
 
 function Router() {
   return (
@@ -21,7 +21,10 @@ function Router() {
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/martech-lemon-test"} component={LemonTest} />
-      <Route path={"/martech-lemon-test/results"} component={LemonTestResults} /> {/* <-- Add new route */}
+      
+      {/* UPDATED: Changed path to exactly what you requested */}
+      <Route path={"/martech-lemon-test-results"} component={LemonTestResults} />
+      
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -50,5 +53,4 @@ function App() {
   );
 }
 
-// THIS LINE FIXES THE BUILD ERROR.
 export default App;
