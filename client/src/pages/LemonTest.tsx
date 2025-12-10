@@ -3,9 +3,9 @@ import { Link } from "wouter";
 
 export default function LemonTest() {
   
+  // FIX: This strictly just checks for the existing script.
+  // It does NOT create a new one. This stops the "spinning button" bug.
   React.useEffect(() => {
-    // FIX: Do NOT load the script here. It is already in index.html.
-    // We just tell the existing RightMessage engine to look for the new widget.
     // @ts-ignore
     if (window.RM && window.RM.check) {
         // @ts-ignore
