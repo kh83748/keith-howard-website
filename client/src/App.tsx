@@ -13,19 +13,18 @@ import LemonTest from "./pages/LemonTest";
 import LemonTestResults from "./pages/LemonTestResults";
 import { useState, useEffect } from "react";
 
-// --- CUSTOM HOOK TO FIX RIGHTMESSAGE URLS ---
-// This strips out the "/rover/..." prefix so the router finds the real page
+// --- THE FIX: Custom Hook to handle RightMessage URLs ---
 const useRightMessageAwareLocation = () => {
   const getLocation = () => {
     const path = window.location.pathname;
     
-    // Check if we are inside the RightMessage editor/proxy
+    // If we are inside the RightMessage "Rover" editor
     if (path.startsWith("/rover/")) {
       try {
         const parts = path.split("/");
         for (const part of parts) {
           const decoded = decodeURIComponent(part);
-          // Look for the real URL inside the path segments
+          // Look for the real URL inside the messy path
           if (decoded.startsWith("http://") || decoded.startsWith("https://")) {
             const realUrl = new URL(decoded);
             return realUrl.pathname; 
@@ -75,7 +74,7 @@ function AppRoutes() {
 }
 
 function App() {
-  // Use the custom hook so routing works inside RightMessage
+  // Use the custom hook
   const rightMessageHook = useRightMessageAwareLocation;
 
   return (
@@ -83,7 +82,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* Apply the custom hook here */}
+          {/* IMPORTANT: The hook is passed here to fix the routing */}
           <Router hook={rightMessageHook}>
             <AppRoutes />
           </Router>
