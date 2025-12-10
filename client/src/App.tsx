@@ -13,16 +13,19 @@ import LemonTest from "./pages/LemonTest";
 import LemonTestResults from "./pages/LemonTestResults";
 import { useState, useEffect } from "react";
 
-// --- CUSTOM HOOK TO FIX RIGHTMESSAGE 404s ---
+// --- CUSTOM HOOK TO FIX RIGHTMESSAGE URLS ---
+// This strips out the "/rover/..." prefix so the router finds the real page
 const useRightMessageAwareLocation = () => {
   const getLocation = () => {
     const path = window.location.pathname;
-    // If we are inside the RightMessage editor (Rover), decode the real URL
+    
+    // Check if we are inside the RightMessage editor/proxy
     if (path.startsWith("/rover/")) {
       try {
         const parts = path.split("/");
         for (const part of parts) {
           const decoded = decodeURIComponent(part);
+          // Look for the real URL inside the path segments
           if (decoded.startsWith("http://") || decoded.startsWith("https://")) {
             const realUrl = new URL(decoded);
             return realUrl.pathname; 
@@ -54,7 +57,6 @@ const useRightMessageAwareLocation = () => {
 
   return [location, navigate] as [string, typeof navigate];
 };
-// ----------------------------------------
 
 function AppRoutes() {
   return (
@@ -73,7 +75,7 @@ function AppRoutes() {
 }
 
 function App() {
-  // Use the custom hook to handle routing
+  // Use the custom hook so routing works inside RightMessage
   const rightMessageHook = useRightMessageAwareLocation;
 
   return (
@@ -81,7 +83,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* We wrap the AppRoutes in a Router using our custom hook */}
+          {/* Apply the custom hook here */}
           <Router hook={rightMessageHook}>
             <AppRoutes />
           </Router>
