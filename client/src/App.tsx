@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch, Router, useLocation } from "wouter";
+import { Route, Switch, Router } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -13,22 +13,16 @@ import LemonTest from "./pages/LemonTest";
 import LemonTestResults from "./pages/LemonTestResults";
 import { useState, useEffect } from "react";
 
-// --- CUSTOM HOOK FOR RIGHTMESSAGE FIX ---
-// This hook checks if we are in the "Rover" editor. If so, it finds the REAL path
-// hidden inside the encoded URL (e.g. /rover/.../https%3A%2F%2Fsite.com%2Freal-page)
+// --- CUSTOM HOOK TO FIX RIGHTMESSAGE 404s ---
 const useRightMessageAwareLocation = () => {
-  // Helper to parse the current URL
   const getLocation = () => {
     const path = window.location.pathname;
-    
-    // Check for RightMessage proxy prefix
+    // If we are inside the RightMessage editor (Rover), decode the real URL
     if (path.startsWith("/rover/")) {
       try {
-        // Split the path and look for the segment that contains the encoded target URL
         const parts = path.split("/");
         for (const part of parts) {
           const decoded = decodeURIComponent(part);
-          // If we find a segment that looks like a URL, extract its pathname
           if (decoded.startsWith("http://") || decoded.startsWith("https://")) {
             const realUrl = new URL(decoded);
             return realUrl.pathname; 
@@ -49,7 +43,6 @@ const useRightMessageAwareLocation = () => {
     return () => window.removeEventListener("popstate", handler);
   }, []);
 
-  // Standard wouter navigation function
   const navigate = (to: string, options?: { replace?: boolean }) => {
     if (options?.replace) {
       window.history.replaceState(null, "", to);
@@ -72,34 +65,23 @@ function AppRoutes() {
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/martech-lemon-test"} component={LemonTest} />
-      
       <Route path={"/martech-lemon-test-results"} component={LemonTestResults} />
-      
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
-  // Use our custom hook instead of the default browser location
+  // Use the custom hook to handle routing
   const rightMessageHook = useRightMessageAwareLocation;
 
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* We wrap the Switch in a Router with our custom hook */}
+          {/* We wrap the AppRoutes in a Router using our custom hook */}
           <Router hook={rightMessageHook}>
             <AppRoutes />
           </Router>
