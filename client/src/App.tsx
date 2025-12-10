@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch, Router } from "wouter";
+import { Route, Switch, Router, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -13,18 +13,17 @@ import LemonTest from "./pages/LemonTest";
 import LemonTestResults from "./pages/LemonTestResults";
 import { useState, useEffect } from "react";
 
-// --- THE FIX: Custom Hook to handle RightMessage URLs ---
+// --- CUSTOM HOOK: Fixes 404s inside RightMessage Editor ---
 const useRightMessageAwareLocation = () => {
   const getLocation = () => {
     const path = window.location.pathname;
     
-    // If we are inside the RightMessage "Rover" editor
+    // Decode the URL if we are inside the RightMessage editor
     if (path.startsWith("/rover/")) {
       try {
         const parts = path.split("/");
         for (const part of parts) {
           const decoded = decodeURIComponent(part);
-          // Look for the real URL inside the messy path
           if (decoded.startsWith("http://") || decoded.startsWith("https://")) {
             const realUrl = new URL(decoded);
             return realUrl.pathname; 
@@ -57,7 +56,20 @@ const useRightMessageAwareLocation = () => {
   return [location, navigate] as [string, typeof navigate];
 };
 
+// --- GLOBAL ROUTE HANDLER ---
 function AppRoutes() {
+  const [location] = useLocation();
+
+  // GLOBAL FIX: Every time the route changes, tell RightMessage to scan the new page.
+  // This ensures widgets load correctly without needing code in every single page file.
+  useEffect(() => {
+    // @ts-ignore
+    if (window.RM && window.RM.check) {
+      // @ts-ignore
+      window.RM.check();
+    }
+  }, [location]);
+
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -74,7 +86,6 @@ function AppRoutes() {
 }
 
 function App() {
-  // Use the custom hook
   const rightMessageHook = useRightMessageAwareLocation;
 
   return (
@@ -82,7 +93,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* IMPORTANT: The hook is passed here to fix the routing */}
+          {/* We wrap the AppRoutes in a Router using our custom hook */}
           <Router hook={rightMessageHook}>
             <AppRoutes />
           </Router>
