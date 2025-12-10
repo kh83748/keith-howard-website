@@ -3,9 +3,9 @@ import { Link } from "wouter";
 
 export default function LemonTest() {
   
-  // FIXED: Removed script injection. 
-  // We ONLY tell the existing RightMessage engine (from index.html) to scan for the new widget.
   React.useEffect(() => {
+    // FIX: Do NOT load the script here. It is already in index.html.
+    // We just tell the existing RightMessage engine to look for the new widget.
     // @ts-ignore
     if (window.RM && window.RM.check) {
         // @ts-ignore
