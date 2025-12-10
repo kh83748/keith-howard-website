@@ -13,12 +13,9 @@ import LemonTest from "./pages/LemonTest";
 import LemonTestResults from "./pages/LemonTestResults";
 import { useState, useEffect } from "react";
 
-// --- CUSTOM HOOK: Fixes 404s inside RightMessage Editor ---
 const useRightMessageAwareLocation = () => {
   const getLocation = () => {
     const path = window.location.pathname;
-    
-    // Decode the URL if we are inside the RightMessage editor
     if (path.startsWith("/rover/")) {
       try {
         const parts = path.split("/");
@@ -56,12 +53,9 @@ const useRightMessageAwareLocation = () => {
   return [location, navigate] as [string, typeof navigate];
 };
 
-// --- GLOBAL ROUTE HANDLER ---
 function AppRoutes() {
   const [location] = useLocation();
 
-  // GLOBAL FIX: Every time the route changes, tell RightMessage to scan the new page.
-  // This ensures widgets load correctly without needing code in every single page file.
   useEffect(() => {
     // @ts-ignore
     if (window.RM && window.RM.check) {
@@ -93,7 +87,6 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* We wrap the AppRoutes in a Router using our custom hook */}
           <Router hook={rightMessageHook}>
             <AppRoutes />
           </Router>
