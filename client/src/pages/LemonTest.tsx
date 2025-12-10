@@ -3,15 +3,9 @@ import { Link } from "wouter";
 
 export default function LemonTest() {
   
-  // FIX: This strictly just checks for the existing script.
-  // It does NOT create a new one. This stops the "spinning button" bug.
-  React.useEffect(() => {
-    // @ts-ignore
-    if (window.RM && window.RM.check) {
-        // @ts-ignore
-        window.RM.check();
-    }
-  }, []);
+  // FIX: NO script loading here. 
+  // We rely entirely on the global listener in App.tsx to handle RightMessage.
+  // This prevents the "double load" that causes the spinning button.
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
