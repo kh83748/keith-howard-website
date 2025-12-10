@@ -20,7 +20,6 @@ export default function LemonTest() {
       <div className="container mx-auto px-6 py-12 sm:py-24 flex-1">
         
         <div className="grid gap-12 lg:grid-cols-2 items-start">
-            
             {/* Left Column: Text Content */}
             <div className="text-left space-y-6 lg:max-w-md lg:py-4">
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
@@ -41,11 +40,8 @@ export default function LemonTest() {
             {/* Right Column: Quiz Embed */}
             <div className="w-full bg-card text-card-foreground rounded-xl border shadow-lg p-6 sm:p-8 min-h-[400px]">
                 <h3 className="text-xl font-bold mb-4"></h3>
-                
-                {/* The Embed Container */}
                 <div className="rm-area-embedded-martech-lemon-test-embed-11-24-25-flow"></div>
             </div>
-
         </div>
       </div>
 
