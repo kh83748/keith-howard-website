@@ -4,8 +4,16 @@ import { Link } from "wouter";
 export default function LemonTest() {
   
   // FIX: NO script loading here. 
-  // We rely entirely on the global listener in App.tsx to handle RightMessage.
+  // We rely entirely on the script in index.html.
   // This prevents the "double load" that causes the spinning button.
+  React.useEffect(() => {
+    // Just tell RightMessage to check for the new widget
+    // @ts-ignore
+    if (window.RM && window.RM.check) {
+        // @ts-ignore
+        window.RM.check();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
