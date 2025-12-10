@@ -3,10 +3,9 @@ import { Link } from "wouter";
 
 export default function LemonTest() {
   
+  // FIXED: Removed the script injection logic to prevent double-loading.
+  // We rely on the script in index.html and just ask RM to re-scan the page.
   React.useEffect(() => {
-    // We do NOT load the script here because it is already in index.html.
-    // Instead, we just tell RightMessage to scan the page for new widgets.
-    
     // @ts-ignore
     if (window.RM && window.RM.check) {
         // @ts-ignore
