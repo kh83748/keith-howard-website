@@ -3,23 +3,14 @@ import { Link } from "wouter";
 
 export default function LemonTest() {
   
-  // 1. This effect runs ONCE when the page loads
   React.useEffect(() => {
-    const scriptId = "rm-script-loader";
+    // We do NOT load the script here because it is already in index.html.
+    // Instead, we just tell RightMessage to scan the page for new widgets.
     
-    // Check if script is already there to avoid duplicates
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.type = "text/javascript";
-      script.async = true;
-      // Directly load your specific RightMessage account script
-      script.src = "https://t.rightmessage.com/240997845.js"; 
-      document.body.appendChild(script);
-    } else {
-      // If script already exists (user navigated away and back), force a re-check
-      // @ts-ignore
-      if (window.RM && window.RM.check) window.RM.check();
+    // @ts-ignore
+    if (window.RM && window.RM.check) {
+        // @ts-ignore
+        window.RM.check();
     }
   }, []);
 
